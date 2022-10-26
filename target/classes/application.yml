@@ -1,0 +1,19 @@
+spring:
+  datasource:
+#    driver-class-name: com.mysql.cj.jdbc.Driver
+    driver-class-name: org.postgresql.Driver
+#    url: jdbc:mysql://${DB_HOST}/${DB_NAME}?useSSL=false
+#    url: jdbc:mysql://127.0.0.1:3307/socialmediamini?useSSL=false
+    url: jdbc:postgresql://127.0.0.1:5433/goldinvestment?useSSL=false
+    username: adminpostgres
+#    username: ${DB_USERNAME}
+    password: 87654321
+#      password: ${DB_PASSWORD}
+    hikari:
+      initialization-fail-timeout: 0
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQL9Dialect
+    generate-ddl: true
+    show-sql: true
+    hibernate:
+      ddl-auto: update

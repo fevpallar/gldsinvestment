@@ -1,0 +1,67 @@
+version: '2.1'
+
+services:
+  zoo1:
+    image: wurstmeister/zookeeper
+    hostname: zoo1
+    container_name: zoo1
+    ports:
+      - "2181:2181"
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_SERVER_ID: 1
+      ZOOKEEPER_SERVERS: zoo1:2888:3888
+
+  kafka1:
+    image: wurstmeister/kafka
+    hostname: kafka1
+    container_name: kafka1
+    ports:
+      - "9092:9092"
+      - "29092:29092"
+      - "9999:9999"
+    environment:
+        #Exposisi InternalKAFKA_ADVERTISED_HOST_NAME: kafka1 dan  KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka1:9092
+        #external KAFKA_ADVERTISED_HOST_NAME: 127.0.0.1 dan KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://127.0.0.1:9092
+      KAFKA_ZOOKEEPER_CONNECT: "zoo1:2181"
+      KAFKA_BROKER_ID: 1
+      KAFKA_ADVERTISED_HOST_NAME: localhost
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://localhost:9092
+      KAFKA_LOG4J_LOGGERS: "kafka.controller=INFO,kafka.producer.async.DefaultEventHandler=INFO,state.change.logger=INFO"
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
+      KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
+    depends_on:
+      - zoo1
+      
+  db:
+    #image: mysql:5.7
+    image: postgres:14.1-alpine
+    restart: always
+    #environment:
+     # MYSQL_DATABASE: 'socialmediamini'
+      # So you don't have to use root, but you can if you like
+      #MYSQL_USER: 'root'  # ini tidak perlu karena user recreated otomatis, otherwise error
+      # You can use whatever password you like
+     # MYSQL_PASSWORD: 'fevlypallar'
+      # Password for root access
+     # MYSQL_ROOT_PASSWORD: 'fevlypallar'
+    environment:
+      - POSTGRES_DB=goldinvestment
+      - POSTGRES_USER=adminpostgres
+      - POSTGRES_PASSWORD=87654321
+    ports:
+      # <Port exposed> : < MySQL Port running inside container>
+      - '5433:5432'
+    expose:
+      # Opens port 3306 on the container
+      - '5432'
+      # Where our data will be persisted
+    volumes:
+      #- my-db:/var/lib/mysql
+      - my-db2:/var/lib/postgresql/data
+# Names our volume
+volumes:
+  my-db2:
+
+ 

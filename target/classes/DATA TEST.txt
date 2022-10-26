@@ -1,0 +1,154 @@
+
+http://localhost:8070/portal/add/lowongan
+POST
+		{
+
+			"deskripsi": "Entry Level",
+			"industri": "Automotif",
+			"kode": "AT455",
+			"kualifikasi": "Disiplin, pengalaman minimal 50 tahun, quick learner",
+			"posisi": "Junior Technician"
+		}
+
+		{
+
+			"deskripsi": "Senior Level",
+			"industri": "Medical center",
+			"kode": "MC6545",
+			"kualifikasi": "Disiplin, Ulet, quick learner",
+			"posisi": "Senior Medical Research"
+		}
+
+
+
+
+http://localhost:8070/portal/add/pelamar
+POST
+
+
+
+		{
+			"alamat": "Jln Kenangan ",
+			"nama": "Budi",
+			"noktp": "34543534543",
+			"usia": 26
+		}
+
+
+                             {
+
+			"alamat": "Jln Jalan bersamamu",
+			"nama": "Irwan",
+			"noktp": "564645844367777",
+			"usia": 37
+		}
+
+
+
+http://localhost:8070/portal/add/perusahaan
+POST
+
+		{
+			"alamat": "Jln Perempatan",
+			"industri": "IT & Telekomunikasi",
+			"kode": "ITK5453",
+			"nama": "PT Langit dan Bumi"
+		}
+
+		{
+			"alamat": "Jln Berliku-liku",
+			"industri": "Automotif",
+			"kode": "M777L",
+			"nama": "PT Masa Lalu"
+		}
+
+
+
+
+
+http://localhost:8070/portal/add/lamaran
+POST
+		{
+			"id_pelamar": "34543534543",
+			"kode": "L1",
+			"kode_lowongan": "AT455",
+			"kode_perusahaan": "ITK5453",
+			"sudah_wawancara": 0,
+			"tanggal_wawancara": "2023-01-15",
+			"jam_wawancara": "10:32:42"
+		}
+
+                          	{
+			"id_pelamar": "34543534543",
+			"kode": "L7",
+			"kode_lowongan": "AT455",
+			"kode_perusahaan": "ITK5453",
+			"sudah_wawancara": 0,
+			"tanggal_wawancara": "2021-01-15",
+			"jam_wawancara": "10:32:42"
+		}
+
+
+
+
+
+=====================================================
+http://localhost:8070/portal/noshowatinterview
+http://localhost:8070/portal/getall/pelamar
+http://localhost:8070/portal/getall/lowongan
+http://localhost:8070/portal/getall/perusahaan
+http://localhost:8070/portal/getall/lamaran
+======================================================
+PELAMAR
+POST 
+update by noktp
+
+http://localhost:7080/portal/update/pelamar
+
+
+	{
+	
+
+			"alamat": "Jln Kesana-sini",
+			"industri": "Sales & Promotion",
+			"kode": "S544",
+			"nama": "PT Bumi dan langit"
+		}
+
+
+======================================================
+PERUSAHAAN
+POST 
+update by kode
+
+http://localhost:7080/portal/update/perusahaan
+
+
+	{
+	
+
+			"alamat": "Jln Kesana-sini",
+			"industri": "Sales & Promotion",
+			"kode": "S544",
+			"nama": "PT Bumi dan langit"
+		}
+
+
+=============================================
+
+LOWONGAN
+POST 
+update by kode
+
+http://localhost:7080/portal/update/lowongan
+
+
+	{
+
+			"deskripsi": "Experienced & Pro Level",
+			"industri": "Sales",
+			"kode": "S345435",
+			"kualifikasi": "Antusias, rajin, cekatan, smart",
+			"posisi": "Senior Sales"
+		}
+
