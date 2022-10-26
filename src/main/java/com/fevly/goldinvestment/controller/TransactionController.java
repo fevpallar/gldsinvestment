@@ -1,6 +1,7 @@
 package com.fevly.goldinvestment.controller;
 
 import com.fevly.goldinvestment.config.HargaReceiver;
+import com.fevly.goldinvestment.config.TopUpReceiver;
 import com.fevly.goldinvestment.entity.Harga;
 import com.fevly.goldinvestment.entity.Rekening;
 import com.fevly.goldinvestment.entity.TopUp;
@@ -29,8 +30,13 @@ public class TransactionController {
     @Autowired
     InputHargaService inputHargaService;
 
+@Autowired
+TopUpReceiver topReceiver;
+    @Autowired
+    TopUpStorage topUpStorage;
     @Autowired
     TopUpService topUpService;
+
     @Autowired
     RekeningService rekeningService;
     @Autowired
@@ -38,26 +44,12 @@ public class TransactionController {
     @Autowired
     MutasiService mutasiService;
 
-
-    @GetMapping("/getall/harga")
-    public ResponseEntity<?> getAllHarga() {
-        List<Harga> listHarga = inputHargaStorage.getAllHarga();
-        if (listHarga == null)
-            return new ResponseEntity<>(null, HttpStatus.OK);
-        HttpHeaders headers = new HttpHeaders();
-        headers.add(HttpHeaders.CONTENT_TYPE, "application/json; charset=UTF-8");
-        return new ResponseEntity<List<Harga>>(listHarga, headers, HttpStatus.OK);
-    }
-
     @PostMapping("/api/input-harga")
     public ResponseEntity<?> addHarga(@RequestBody Harga harga) {
-
-
-
         if (harga.getHarga_topup() == 0 || harga.getHarga_buyback() == 0) {
             ErrorEntity err = new ErrorEntity();
             err.setError("true");
-            err.setReff_id(inputHargaStorage.getLastRowId().toString());
+            err.setReff_id(topUpStorage.getLastRowId().toString());
             err.setMessage("Nominal harga tidak boleh kosong!");
             return new ResponseEntity<ErrorEntity>(err, HttpStatus.OK);
         }
@@ -69,9 +61,12 @@ public class TransactionController {
 
     @PostMapping("/api/topup")
     public ResponseEntity<?> topUp(@RequestBody TopUp topUp) {
+        topUpService.sendTopUp(topUp);
         HttpHeaders headers = new HttpHeaders();
         headers.add(HttpHeaders.CONTENT_TYPE, "application/json; charset=UTF-8");
-        return new ResponseEntity<TopUp>(topUpService.insertTransaksi(topUp), headers, HttpStatus.OK);
+      return new ResponseEntity<TopUp>(topReceiver.sendToDB(topUp), headers, HttpStatus.OK);
+   // return null;
+
     }
 
     @PostMapping("/api/buyback")

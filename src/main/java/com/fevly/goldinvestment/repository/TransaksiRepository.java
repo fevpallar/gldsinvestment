@@ -1,8 +1,5 @@
 package com.fevly.goldinvestment.repository;
 
-import com.fevly.goldinvestment.entity.Harga;
-import com.fevly.goldinvestment.entity.Rekening;
-import com.fevly.goldinvestment.entity.TopUp;
 import com.fevly.goldinvestment.entity.Transaksi;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;

@@ -1,7 +1,6 @@
 package com.fevly.goldinvestment.service;
 
 import com.fevly.goldinvestment.entity.Rekening;
-import com.fevly.goldinvestment.repository.HargaRepository;
 import com.fevly.goldinvestment.repository.RekeningRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

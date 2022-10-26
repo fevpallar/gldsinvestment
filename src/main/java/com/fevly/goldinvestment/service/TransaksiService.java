@@ -1,6 +1,5 @@
 package com.fevly.goldinvestment.service;
 
-import com.fevly.goldinvestment.entity.Rekening;
 import com.fevly.goldinvestment.entity.Transaksi;
 import com.fevly.goldinvestment.repository.TransaksiRepository;
 import org.springframework.beans.factory.annotation.Autowired;

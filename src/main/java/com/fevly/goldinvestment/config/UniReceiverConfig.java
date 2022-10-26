@@ -17,7 +17,7 @@ import org.springframework.kafka.support.serializer.JsonDeserializer;
 
 @Configuration
 @EnableKafka
-public class HargaReceiverConfig {
+public class UniReceiverConfig {
 
     @Value("localhost:9092")
     private String bootstrapServers;

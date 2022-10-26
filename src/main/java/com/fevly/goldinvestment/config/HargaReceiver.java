@@ -21,10 +21,10 @@ public class HargaReceiver {
     public CountDownLatch getLatch() {
         return latch;
     }
+
     public Harga sendToDB (Harga harga){
         return inputHargaStorage.addHarga(harga);
     }
-
     @KafkaListener(topics = "input-harga")
     public void receive(Harga harga) {
         LOGGER.info("received harga='{}'", harga.toString());

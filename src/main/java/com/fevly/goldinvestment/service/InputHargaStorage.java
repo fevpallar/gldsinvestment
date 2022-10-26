@@ -1,7 +1,6 @@
 package com.fevly.goldinvestment.service;
 
 
-import com.fevly.goldinvestment.config.HargaReceiver;
 import com.fevly.goldinvestment.entity.Harga;
 import com.fevly.goldinvestment.repository.HargaRepository;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.fevly.goldinvestment.entity.Harga;
+import com.fevly.goldinvestment.entity.TopUp;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.common.serialization.StringSerializer;
 import org.springframework.beans.factory.annotation.Value;
@@ -14,10 +15,8 @@ import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.kafka.core.ProducerFactory;
 import org.springframework.kafka.support.serializer.JsonSerializer;
 
-
-
 @Configuration
-public class HargaSenderConfig {
+public class UniSenderConfig {
 
     @Value("localhost:9092")
     private String bootstrapServers;
@@ -37,12 +36,28 @@ public class HargaSenderConfig {
     }
 
     @Bean
+    public ProducerFactory<String, TopUp> producerFactoryTopUp() {
+        return new DefaultKafkaProducerFactory<>(producerConfigs());
+    }
+
+    @Bean
     public KafkaTemplate<String, Harga> kafkaTemplate() {
         return new KafkaTemplate<>(producerFactory());
+    }
+
+    @Bean
+    public KafkaTemplate<String, TopUp> kafkaTemplateTopUp() {
+        return new KafkaTemplate<>(producerFactoryTopUp());
     }
 
     @Bean
     public HargaSender sender() {
         return new HargaSender();
     }
+
+    @Bean
+    public TopUpSender senderTopUp() {
+        return new TopUpSender();
+    }
+
 }
