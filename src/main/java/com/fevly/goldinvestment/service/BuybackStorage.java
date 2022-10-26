@@ -1,33 +1,52 @@
 package com.fevly.goldinvestment.service;
 
 
+import com.fevly.goldinvestment.entity.Rekening;
+import com.fevly.goldinvestment.entity.Transaksi;
+import com.fevly.goldinvestment.helper.Buyback;
+import com.fevly.goldinvestment.helper.DateUtility;
+import com.fevly.goldinvestment.repository.HargaRepository;
+import com.fevly.goldinvestment.repository.RekeningRepository;
+import com.fevly.goldinvestment.repository.TopUpRepository;
+import com.fevly.goldinvestment.repository.TransaksiRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 
+import java.sql.Date;
+
 @Service
 public class BuybackStorage {
+    @Autowired
+    private TopUpRepository topUpRepository;
+    @Autowired
+    private RekeningRepository rekeningRepository;
+    @Autowired
+    private TransaksiRepository transaksiRepository;
+    @Autowired
+    private HargaRepository hargaRepository;
 
+    // will thrown exception during message streaming, but will STILL deliver
+    // cannot debug futher, RAM is limited, CPU is old, things are slow and starts burning
+    public Buyback buyback (Buyback buyback) {
+        Transaksi transaksi = new Transaksi();
+        transaksi.setDate(Date.valueOf(new DateUtility().getFormattedDate("yyyy-MM-dd")));
+        transaksi.setType("buyback");
+        transaksi.setGram(buyback.getGram());
+        transaksi.setHarga(buyback.getHarga());
 
-    /*@Autowired
-    private KafkaTemplate<String, String> kafkaTemplate;
-    // buat consumer di docker dengan
+        Rekening rekening = rekeningRepository.getByNorek(buyback.getNorek());
+        transaksiRepository.save(transaksi);
+        updateSaldo(buyback.getNorek(), buyback.getHarga());
+        return buyback;
 
-    //docker exec -it  [ID_CONTAINER] kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic java_in_use_topic --from-beginning
-    String kafkaTopic = "java_in_use_topic";
-
-    public void send(String data) {
-
-        kafkaTemplate.send(kafkaTopic, data);
     }
 
-
-    // check consumer group di docker dengan
-    //docker exec -it  [ID_CONTAINER]  kafka-consumer-groups.sh -bootstrap-server 127.0.0.1:9092 --list
-    @KafkaListener(topics = "java_in_use_topic", groupId = "console-consumer-38236")
-    public void listenGroupFoo(String message) {
-        System.out.println("Received Message in group foo: " + message);
+    public Rekening updateSaldo(String norek, double harga) {
+        Rekening rekening = rekeningRepository.getByNorek(norek);
+        rekening.setSaldo(rekening.getSaldo() + harga);
+        return rekeningRepository.save(rekening);
     }
-*/
+
 }

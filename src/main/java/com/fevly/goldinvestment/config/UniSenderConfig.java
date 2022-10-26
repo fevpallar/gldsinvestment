@@ -5,6 +5,7 @@ import java.util.Map;
 
 import com.fevly.goldinvestment.entity.Harga;
 import com.fevly.goldinvestment.entity.TopUp;
+import com.fevly.goldinvestment.helper.Buyback;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.common.serialization.StringSerializer;
 import org.springframework.beans.factory.annotation.Value;
@@ -41,6 +42,11 @@ public class UniSenderConfig {
     }
 
     @Bean
+    public ProducerFactory<String, Buyback> producerFactoryBuyback() {
+        return new DefaultKafkaProducerFactory<>(producerConfigs());
+    }
+
+    @Bean
     public KafkaTemplate<String, Harga> kafkaTemplate() {
         return new KafkaTemplate<>(producerFactory());
     }
@@ -51,6 +57,11 @@ public class UniSenderConfig {
     }
 
     @Bean
+    public KafkaTemplate<String, Buyback> kafkaTemplateBuyback() {
+        return new KafkaTemplate<>(producerFactoryBuyback());
+    }
+
+    @Bean
     public HargaSender sender() {
         return new HargaSender();
     }
@@ -58,6 +69,11 @@ public class UniSenderConfig {
     @Bean
     public TopUpSender senderTopUp() {
         return new TopUpSender();
+    }
+
+    @Bean
+    public BuybackSender senderBuyback() {
+        return new BuybackSender();
     }
 
 }

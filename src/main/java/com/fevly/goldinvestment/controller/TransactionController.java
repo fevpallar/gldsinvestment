@@ -1,5 +1,6 @@
 package com.fevly.goldinvestment.controller;
 
+import com.fevly.goldinvestment.config.BuybackReceiver;
 import com.fevly.goldinvestment.config.HargaReceiver;
 import com.fevly.goldinvestment.config.TopUpReceiver;
 import com.fevly.goldinvestment.entity.Harga;
@@ -24,23 +25,29 @@ import java.util.*;
 @RequestMapping("/submit")
 public class TransactionController {
 
-    @Autowired HargaReceiver hargaReceiver;
+    @Autowired
+    HargaReceiver hargaReceiver;
     @Autowired
     InputHargaStorage inputHargaStorage;
     @Autowired
     InputHargaService inputHargaService;
 
-@Autowired
-TopUpReceiver topReceiver;
+    @Autowired
+    TopUpReceiver topUpReceiver;
     @Autowired
     TopUpStorage topUpStorage;
     @Autowired
     TopUpService topUpService;
 
     @Autowired
-    RekeningService rekeningService;
+    BuybackReceiver buybackReceiver;
+    @Autowired
+    BuybackStorage buybackStorage;
     @Autowired
     BuybackService buybackService;
+
+    @Autowired
+    RekeningService rekeningService;
     @Autowired
     MutasiService mutasiService;
 
@@ -64,27 +71,25 @@ TopUpReceiver topReceiver;
         topUpService.sendTopUp(topUp);
         HttpHeaders headers = new HttpHeaders();
         headers.add(HttpHeaders.CONTENT_TYPE, "application/json; charset=UTF-8");
-      return new ResponseEntity<TopUp>(topReceiver.sendToDB(topUp), headers, HttpStatus.OK);
-   // return null;
-
+        return new ResponseEntity<TopUp>(topUpReceiver.sendToDB(topUp), headers, HttpStatus.OK);
     }
 
     @PostMapping("/api/buyback")
     public ResponseEntity<?> buyBack(@RequestBody Buyback buyback) {
+        buybackService.send(buyback);
         Buyback buybackDomain = new Buyback();
         buybackDomain.setGram(buyback.getGram());
         buybackDomain.setHarga(buyback.getHarga());
         buybackDomain.setNorek(buyback.getNorek());
-
         HttpHeaders headers = new HttpHeaders();
         headers.add(HttpHeaders.CONTENT_TYPE, "application/json; charset=UTF-8");
-        return new ResponseEntity<Buyback>(buybackService.buyback(buyback), headers, HttpStatus.OK);
+        return new ResponseEntity<Buyback>(buybackReceiver.sendToDB(buyback), headers, HttpStatus.OK);
     }
 
     @PostMapping("/api/saldo")
     public ResponseEntity<?> checkSaldo(@RequestBody NoRekening norek) {
 
-     Rekening rekening = rekeningService.checkSaldo(norek.getNorek());
+        Rekening rekening = rekeningService.checkSaldo(norek.getNorek());
         if (rekening == null)
             return new ResponseEntity<>(null, HttpStatus.OK);
         HttpHeaders headers = new HttpHeaders();
