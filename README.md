@@ -52,4 +52,4 @@ If it is for _some unknown reasons_ things fail in your system, an alternative w
 `docker network create -d bridge [network_name]`
 
 
-`docker run -itd --network=mynet [container_id]`
+`docker run -itd --network=network_name [container_id]`
