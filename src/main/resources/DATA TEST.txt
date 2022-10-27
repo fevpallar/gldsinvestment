@@ -1,7 +1,8 @@
-
+GET
+http://localhost:8080/submit/api/check-harga
 
 POST
-	http://localhost:8080/submit/api/input-harga
+http://localhost:8080/submit/api/input-harga
 
 		{
 			"admin_id": "SFDFDS4",
@@ -9,9 +10,7 @@ POST
 			"harga_topup": 850
 		}
 
-
 POST
-
 http://localhost:8080/submit/api/topup
 
        {
@@ -21,9 +20,8 @@ http://localhost:8080/submit/api/topup
 		}
 
 
-		POST
-
-		http://localhost:8080/submit/api/saldo
+POST
+http://localhost:8080/submit/api/saldo
 
 		{"norek":"1234"}
 

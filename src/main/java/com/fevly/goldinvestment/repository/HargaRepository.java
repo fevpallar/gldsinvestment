@@ -3,6 +3,7 @@ package com.fevly.goldinvestment.repository;
 
 
 import com.fevly.goldinvestment.entity.Harga;
+import com.fevly.goldinvestment.helper.HargaDTO;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
@@ -18,5 +19,6 @@ public interface HargaRepository extends JpaRepository<Harga, Long> {
 
     @Query(value = "select harga_topup from tbl_harga", nativeQuery = true)
     public Double getHargaTopUp();
+
 
 }
