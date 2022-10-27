@@ -9,7 +9,7 @@
 
 
 
-Composer (inside the _misc_ folder)
+Composer (in the _misc_ folder)
 
 `docker-compose -f docker-composer.yml up -d`
 
@@ -35,18 +35,16 @@ Exposed ports:
 
 - Kafka
 
-    ports:
+     ports:
     
         - "9092:9092"
         - "29092:29092"
         - "9999:9999"
 - Postgres
 
-    ports:
-    
-        - "9092:9092"
-        - "29092:29092"
-        - "9999:9999
+     ports:
+     
+        - "5433:5432"
 
 
 If it is for _some unknown reasons_ things fail in your system, an alternative way is to creating a custome internal network (_bridge_ mode) then attach all containers to that network.
